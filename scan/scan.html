@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Scan de présence - ePresence</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="scan-container">
+    <h2>📷 Scan de Présence</h2>
+    
+    <video id="camera" autoplay playsinline></video>
+    <p id="scan-status">En attente de scan...</p>
+
+    <h3>✅ Étudiants scannés :</h3>
+    <ul id="scanned-list">
+      <!-- Liste des étudiants -->
+    </ul>
+
+    <div class="scan-actions">
+      <button onclick="exportPresence()">📄 Exporter</button>
+      <a href="../dashboard/professor.html">⬅️ Retour</a>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="../js/scan.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ePresence - Accueil</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('src/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-color: #eafff9; /* 💡 Couleur de secours si l’image ne charge pas */
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(242, 248, 247, 0.9); /* Légère transparence */
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-right: 30px;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 20px; /* ✅ Espace entre logo et bouton menu */
+    }
+
+    .menu-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    #menu-button {
+      padding: 10px 16px;
+      font-size: 16px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #menu-button:hover {
+      background-color: #004d99;
+    }
+
+    .dropdown {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background-color: #e5e5ed;
+      border: 1px solid #8b1212;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 200px;
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .show {
+      display: flex;
+    }
+
+    .welcome {
+      flex: 1;
+      text-align: center;
+      font-size: 36px;
+      color: #003366;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 20px;
+      }
+
+      .logo-menu {
+        align-items: center;
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+
+      .welcome {
+        font-size: 24px;
+      }
+
+      .menu-wrapper {
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Colonne gauche : logo + menu -->
+    <div class="logo-menu">
+      <img src="src/logo-upn.png" alt="Logo institution" class="logo" />
+      <div class="menu-wrapper">
+        <button id="menu-button">☰ Menu</button>
+        <div class="dropdown" id="dropdown-menu">
+          <a href="dashboard/student.html">🎓 Étudiant</a>
+          <a href="dashboard/professor.html">👨‍🏫 Professeur</a>
+          <a href="dashboard/admin.html">🛠️ Admin</a>
+          <a href="dashboard/service.html">🛂 Agent de service</a>
+          <a href="settings.html">⚙️ Paramètres</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Titre centré dans l'espace restant -->
+    <h1 class="welcome">Bienvenue à l’Université Pédagogique Nationale</h1>
+  </div>
+
+  <script>
+    const button = document.getElementById('menu-button');
+    const menu = document.getElementById('dropdown-menu');
+    button.addEventListener('click', () => {
+      menu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!button.contains(event.target) && !menu.contains(event.target)) {
+        menu.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>

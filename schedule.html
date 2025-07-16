@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Emploi du temps - ePresence</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div class="schedule-container">
+    <h2>🗓️ Emploi du temps</h2>
+
+    <label for="promotion-select">Choisir une promotion :</label>
+    <select id="promotion-select" onchange="loadSchedule()">
+      <option value="l1">L1 Informatique</option>
+      <option value="l2">L2 Informatique</option>
+      <option value="l3">L3 Informatique</option>
+    </select>
+
+    <table id="schedule-table">
+      <thead>
+        <tr>
+          <th>Jour</th>
+          <th>Heure</th>
+          <th>Cours</th>
+          <th>Salle</th>
+          <th>Enseignant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Horaires chargés dynamiquement -->
+      </tbody>
+    </table>
+
+    <div class="back-home">
+      <a href="./index.html">🏠 Retour à l'accueil</a>
+    </div>
+  </div>
+
+  <script src="./js/schedule.js"></script>
+</body>
+</html>

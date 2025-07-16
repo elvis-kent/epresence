@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connexion - ePresence</title>
+  <link rel="stylesheet" href="login.css" />
+  <style>
+    /* Petit style intégré au cas où login.css ne soit pas chargé */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #005792, #00bcd4);
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #005792;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #005792;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #003f66;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Connexion à ePresence</h2>
+    <form action="login.php" method="post">
+      <label for="role">Rôle :</label>
+      <select name="role" id="role" required>
+        <option value="">-- Choisissez votre rôle --</option>
+        <option value="etudiant">Étudiant</option>
+        <option value="prof">Professeur</option>
+        <option value="admin">Admin</option>
+        <option value="superadmin">Super Admin</option>
+      </select>
+
+      <label for="identifiant">Identifiant :</label>
+      <input type="text" id="identifiant" name="identifiant" required />
+
+      <label for="motdepasse">Mot de passe :</label>
+      <input type="password" id="motdepasse" name="motdepasse" required />
+
+      <button type="submit">Se connecter</button>
+    </form>
+  </div>
+</body>
+</html>

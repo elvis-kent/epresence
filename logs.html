@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Historique - ePresence</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div class="logs-container">
+    <h2>📜 Journal des activités</h2>
+
+    <label for="filter-user">Filtrer par utilisateur :</label>
+    <input type="text" id="filter-user" placeholder="Nom d'utilisateur" onkeyup="filterLogs()" />
+
+    <table id="logs-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Utilisateur</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Journaux simulés -->
+        <tr>
+          <td>2025-07-02</td>
+          <td>10:21</td>
+          <td>admin-fac-sciences</td>
+          <td>Création d’un département</td>
+        </tr>
+        <tr>
+          <td>2025-07-02</td>
+          <td>10:30</td>
+          <td>admin-dep-info</td>
+          <td>Ajout de 25 étudiants</td>
+        </tr>
+        <tr>
+          <td>2025-07-02</td>
+          <td>11:00</td>
+          <td>prof-mbuyi</td>
+          <td>Scan de 42 étudiants</td>
+        </tr>
+        <tr>
+          <td>2025-07-02</td>
+          <td>11:15</td>
+          <td>admin-unikin</td>
+          <td>Ajout d’un agent bibliothèque</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="back-home">
+      <a href="./index.html">🏠 Retour à l'accueil</a>
+    </div>
+  </div>
+
+  <script src="./js/logs.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion Étudiant - ePresence</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .student-dashboard {
+      display: none;
+    }
+
+    .prof-dashboard, .student-dashboard {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+
+    h2, h3 {
+      color: #0066cc;
+    }
+
+    label, select, input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004d99;
+    }
+
+    .info p {
+      margin: 8px 0;
+    }
+
+    .course-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .course {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .status {
+      font-weight: bold;
+    }
+
+    .in-progress { color: orange; }
+    .closed { color: green; }
+    .not-started { color: gray; }
+
+    .prof-actions, .student-actions {
+      margin-top: 20px;
+    }
+
+    .prof-actions a, .student-actions a {
+      text-decoration: none;
+      margin-right: 10px;
+      color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Formulaire de connexion -->
+  <div class="prof-dashboard" id="login-form">
+    <h2>Connexion Étudiant 🎓</h2>
+
+    <form id="select-course-form">
+      <h3>📌 Remplir les informations</h3>
+
+      <label>Faculté :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>Sciences</option>
+        <option>Lettre et Sciences humaines</option>
+      </select>
+
+      <label>Département :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>Informatique</option>
+        <option>Mathématiques</option>
+      </select>
+
+      <label>Filière :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>TI</option>
+        <option>MI</option>
+      </select>
+
+      <label>Promotion :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>L1</option>
+        <option>L2</option>
+      </select>
+
+      <label>Nom complet :</label>
+      <input type="text" required>
+
+      <label>Mot de passe :</label>
+      <input type="password" required>
+
+      <button type="submit">📲 Connexion</button>
+    </form>
+  </div>
+
+  <!-- Tableau de bord Étudiant -->
+  <div class="student-dashboard" id="student-dashboard">
+    <h2>Bienvenue, Étudiant 🎓</h2>
+
+    <div class="info">
+      <p><strong>Nom :</strong> Jean Bula</p>
+      <p><strong>Faculté :</strong> Sciences</p>
+      <p><strong>Département :</strong> Informatique</p>
+      <p><strong>Promotion :</strong> L2</p>
+    </div>
+
+    <h3>📚 Mes cours</h3>
+    <ul class="course-list">
+      <li class="course">
+        Mathématiques 2 – <span class="status in-progress">En cours</span>
+        <button onclick="alert('Vous avez participé à 5 séances sur 8')">Voir ma participation</button>
+      </li>
+      <li class="course">
+        Algorithmique – <span class="status closed">Clôturé</span>
+        <button onclick="alert('Participation : 8 sur 10 → 80%')">Voir ma participation</button>
+      </li>
+      <li class="course">
+        Statistiques – <span class="status not-started">Non introduit</span>
+      </li>
+    </ul>
+
+    <div class="student-actions">
+      <a href="../schedule.html">🗓 Voir mon horaire</a> |
+      <a href="../library.html">📖 Bibliothèque</a> |
+      <a href="../index.html">🔒 Se déconnecter</a>
+    </div>
+  </div>
+
+  <script>
+    // Simule la connexion et l'affichage de l'interface étudiant
+    document.getElementById("select-course-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("login-form").style.display = "none";
+      document.getElementById("student-dashboard").style.display = "block";
+    });
+  </script>
+
+</body>
+</html>

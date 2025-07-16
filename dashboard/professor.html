@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tableau de bord Professeur - ePresence</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="prof-dashboard">
+    <h2>Bienvenue, Professeur 👨‍🏫</h2>
+
+    <form id="select-course-form">
+      <h3>📌 Sélection du cours</h3>
+
+      <label>Faculté :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>Sciences</option>
+        <option>Lettre et Sciences humaines</option>
+      </select>
+
+      <label>Département :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>Informatique</option>
+        <option>Mathématiques</option>
+      </select>
+
+      <label>Filière :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>TI</option>
+        <option>MI</option>
+      </select>
+
+      <label>Promotion :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>L1</option>
+        <option>L2</option>
+      </select>
+
+      <label>Cours :</label>
+      <select required>
+        <option value="">-- Choisir --</option>
+        <option>Maths 2</option>
+        <option>Algorithmique</option>
+      </select>
+
+      <label>Identifiant :</label>
+      <input type="text" required>
+
+      <label>Mot de passe :</label>
+      <input type="password" required>
+
+      <button type="submit">📲 Accéder au scan</button>
+    </form>
+
+    <div class="prof-actions">
+      <a href="../scan/scan.html">📷 Lancer le scan QR</a> |
+      <a href="../schedule.html">🗓 Mon emploi du temps</a> |
+      <a href="../index.html">🔒 Se déconnecter</a>
+    </div>
+  </div>
+</body>
+</html>

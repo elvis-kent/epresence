@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Paramètres - ePresence</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .settings-container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    .settings-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .settings-container section {
+      margin-bottom: 30px;
+      border-top: 1px solid #ccc;
+      padding-top: 20px;
+    }
+
+    .settings-container h3 {
+      margin-bottom: 10px;
+      color: #003366;
+    }
+
+    .settings-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .settings-container input,
+    .settings-container select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .settings-container button {
+      width: fit-content;
+      padding: 10px 20px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .settings-container button:hover {
+      background-color: #004c99;
+    }
+
+    .settings-container a {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .back-home a {
+      color: #333;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back-home a:hover {
+      color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <h2>⚙️ Paramètres utilisateur</h2>
+
+    <section>
+      <h3>🔑 Modifier le mot de passe</h3>
+      <form>
+        <input type="password" placeholder="Ancien mot de passe" required>
+        <input type="password" placeholder="Nouveau mot de passe" required>
+        <input type="password" placeholder="Confirmer le nouveau mot de passe" required>
+        <button type="submit">Changer</button>
+      </form>
+    </section>
+
+    <section>
+      <h3>👤 Modifier mes informations</h3>
+      <form>
+        <input type="text" placeholder="Email">
+        <input type="tel" placeholder="Téléphone">
+        <input type="file" accept="image/*">
+        <button type="submit">Mettre à jour</button>
+      </form>
+    </section>
+
+    <section>
+      <h3>📄 Télécharger mes données</h3>
+      <button onclick="alert('Fonction à venir')">Télécharger</button>
+    </section>
+
+    <section>
+      <h3>🌐 Langue de l’interface</h3>
+      <select>
+        <option>Français</option>
+        <option>Anglais</option>
+      </select>
+    </section>
+
+    <section>
+      <h3>☁️ Mode hors-ligne</h3>
+      <label>
+        <input type="checkbox"> Activer le mode hors-ligne
+      </label>
+    </section>
+
+    <section>
+      <h3>📝 Documentation</h3>
+      <a href="./docs/guide-utilisateur.pdf" download>📥 Télécharger le guide PDF</a>
+    </section>
+
+    <section>
+      <h3>🔐 Gérer les autorisations</h3>
+      <p>Accessible uniquement aux admins. (à venir)</p>
+    </section>
+
+    <div class="back-home">
+      <a href="./index.html">🏠 Retour à l'accueil</a>
+    </div>
+  </div>
+</body>
+</html>

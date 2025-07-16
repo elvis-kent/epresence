@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agent de Service - ePresence</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="service-dashboard">
+    <h2>🛡️ Accès au Service : Bibliothèque</h2>
+
+    <p>📍 Scanner la carte étudiant pour autoriser l'accès.</p>
+
+    <video id="camera" autoplay playsinline></video>
+    <p id="scan-status">En attente de scan...</p>
+
+    <h3>🎫 Derniers accès</h3>
+    <ul id="access-list">
+      <!-- Liste des étudiants autorisés -->
+    </ul>
+
+    <div class="agent-logout">
+      <a href="../index.html">🔒 Se déconnecter</a>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="../js/service-scan.js"></script>
+</body>
+</html>

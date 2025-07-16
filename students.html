@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Liste des étudiants - ePresence</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+    <div class="page-container">
+  <!-- Inclut le menu -->
+  <iframe src="./partials/menu.html" class="menu-frame"></iframe>
+
+  <!-- Le contenu de la page suit... -->
+</div>
+
+  <div class="students-container">
+    <h2>📋 Liste des étudiants</h2>
+
+    <input type="text" id="searchInput" placeholder="🔍 Rechercher par nom ou matricule..." onkeyup="filterStudents()" />
+
+    <table id="students-table">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Nom complet</th>
+          <th>Matricule</th>
+          <th>Promotion</th>
+          <th>Département</th>
+          <th>QR Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Exemple de données -->
+        <tr>
+          <td><img src="./img/etudiant1.jpg" alt="photo" class="student-pic" /></td>
+          <td>Kasongo Blaise</td>
+          <td>UPN2025INF1021</td>
+          <td>L2</td>
+          <td>Informatique</td>
+          <td><img src="./qrcodes/upn2025inf1021.png" class="qr-small" /></td>
+        </tr>
+        <tr>
+          <td><img src="./img/etudiant2.jpg" alt="photo" class="student-pic" /></td>
+          <td>Mukeba Grâce</td>
+          <td>UPN2025INF1054</td>
+          <td>L1</td>
+          <td>Informatique</td>
+          <td><img src="./qrcodes/upn2025inf1054.png" class="qr-small" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="back-home">
+      <a href="./index.html">🏠 Retour à l'accueil</a>
+    </div>
+  </div>
+
+  <script src="./js/students.js"></script>
+</body>
+</html>
