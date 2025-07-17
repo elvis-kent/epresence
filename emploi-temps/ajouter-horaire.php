@@ -1,90 +1,93 @@
 <?php
 session_start();
-require_once 'config.php';
+require 'config.php';
 
-// Sécurité : s'assurer que l'utilisateur est un admin de département
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin_departement') {
-    header('Location: login.php');
+    header("Location: login.php");
     exit;
 }
 
-// Traitement formulaire
-$message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $promotion_id = $_POST['promotion_id'];
-    $cours_id = $_POST['cours_id'];
-    $jour = $_POST['jour_semaine'];
-    $heure_debut = $_POST['heure_debut'];
-    $heure_fin = $_POST['heure_fin'];
+    $jour = $_POST['jour'];
+    $debut = $_POST['heure_debut'];
+    $fin = $_POST['heure_fin'];
+    $cours = $_POST['nom_cours'];
     $salle = $_POST['salle'];
+    $prof = $_POST['professeur_id'];
 
-    $stmt = $conn->prepare("INSERT INTO horaires (promotion_id, cours_id, jour_semaine, heure_debut, heure_fin, salle) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("iissss", $promotion_id, $cours_id, $jour, $heure_debut, $heure_fin, $salle);
-
-    if ($stmt->execute()) {
-        $message = "Horaire ajouté avec succès.";
-    } else {
-        $message = "Erreur lors de l'ajout.";
-    }
+    $stmt = $conn->prepare("INSERT INTO horaires (promotion_id, jour_semaine, heure_debut, heure_fin, nom_cours, salle, professeur_id)
+                            VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssi", $promotion_id, $jour, $debut, $fin, $cours, $salle, $prof);
+    $stmt->execute();
+    $message = "✅ Horaire ajouté avec succès !";
 }
 
-// Récupérer promotions et cours du département connecté
-$promotions = $conn->query("SELECT id, nom FROM promotions");
-$cours = $conn->query("SELECT id, nom FROM cours");
+// Récupérer les promotions
+$promos = $conn->query("SELECT id, nom FROM promotions");
+$profs = $conn->query("SELECT id, nom FROM professeurs");
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Ajouter un horaire</title>
-<style>
-    body { font-family: Arial; padding: 20px; }
-    input, select { padding: 8px; margin: 5px 0; width: 100%; }
-    button { padding: 10px; }
-    .success { color: green; }
-</style>
+    <meta charset="UTF-8">
+    <title>Ajouter un horaire</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #f5f5f5; }
+        form { background: white; padding: 20px; border-radius: 6px; width: 500px; margin: auto; box-shadow: 0 0 5px #ccc; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 15px; }
+        button { padding: 10px 20px; background: #007BFF; color: white; border: none; cursor: pointer; }
+        h2 { text-align: center; }
+        .msg { color: green; text-align: center; }
+    </style>
 </head>
 <body>
-<h2>Ajouter un horaire de cours</h2>
-<?php if ($message): ?>
-    <p class="success"><?= $message ?></p>
-<?php endif; ?>
+
+<h2>📅 Ajouter un horaire</h2>
+<?php if (isset($message)) echo "<p class='msg'>$message</p>"; ?>
+
 <form method="post">
-    <label>Promotion :</label>
+    <label>Promotion</label>
     <select name="promotion_id" required>
-        <?php while($row = $promotions->fetch_assoc()): ?>
-            <option value="<?= $row['id'] ?>"><?= $row['nom'] ?></option>
+        <option value="">-- Choisir --</option>
+        <?php while ($row = $promos->fetch_assoc()): ?>
+            <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['nom']) ?></option>
         <?php endwhile; ?>
     </select>
 
-    <label>Cours :</label>
-    <select name="cours_id" required>
-        <?php while($row = $cours->fetch_assoc()): ?>
-            <option value="<?= $row['id'] ?>"><?= $row['nom'] ?></option>
-        <?php endwhile; ?>
+    <label>Jour de la semaine</label>
+    <select name="jour" required>
+        <option value="">-- Choisir --</option>
+        <option>Lundi</option>
+        <option>Mardi</option>
+        <option>Mercredi</option>
+        <option>Jeudi</option>
+        <option>Vendredi</option>
+        <option>Samedi</option>
     </select>
 
-    <label>Jour :</label>
-    <select name="jour_semaine" required>
-        <option value="Lundi">Lundi</option>
-        <option value="Mardi">Mardi</option>
-        <option value="Mercredi">Mercredi</option>
-        <option value="Jeudi">Jeudi</option>
-        <option value="Vendredi">Vendredi</option>
-        <option value="Samedi">Samedi</option>
-    </select>
-
-    <label>Heure de début :</label>
+    <label>Heure début</label>
     <input type="time" name="heure_debut" required>
 
-    <label>Heure de fin :</label>
+    <label>Heure fin</label>
     <input type="time" name="heure_fin" required>
 
-    <label>Salle :</label>
+    <label>Nom du cours</label>
+    <input type="text" name="nom_cours" required>
+
+    <label>Salle</label>
     <input type="text" name="salle" required>
 
-    <button type="submit">Ajouter</button>
+    <label>Professeur</label>
+    <select name="professeur_id" required>
+        <option value="">-- Choisir --</option>
+        <?php while ($row = $profs->fetch_assoc()): ?>
+            <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row['nom']) ?></option>
+        <?php endwhile; ?>
+    </select>
+
+    <button type="submit">💾 Ajouter</button>
 </form>
 
 </body>

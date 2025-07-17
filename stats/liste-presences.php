@@ -1,134 +1,131 @@
 <?php
+require_once('includes/config.php');
 session_start();
-require_once 'config.php';
 
-// Vérifier que prof est connecté
-if (!isset($_SESSION['prof_id'], $_SESSION['cours_id'])) {
-    header('Location: prof_login.php');
-    exit;
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'professeur') {
+    header('Location: login.php');
+    exit();
 }
 
-$prof_id = $_SESSION['prof_id'];
-$cours_id = $_SESSION['cours_id'];
+$id_prof = $_SESSION['id'];
 
-$date = $_GET['date'] ?? date('Y-m-d');
-$search_nom = $_GET['search_nom'] ?? '';
+// Récupération des cours du prof
+$cours = $conn->query("
+    SELECT c.id, c.nom AS nom_cours
+    FROM cours c
+    WHERE c.id_professeur = $id_prof
+");
 
-// Préparer la requête avec filtre dynamique
+$filtre_date = $_GET['date'] ?? '';
+$search = $_GET['search'] ?? '';
+$cours_id = $_GET['cours_id'] ?? '';
+
+// Requête de base
 $sql = "
-    SELECT e.nom, e.prenom, p.date_presence, p.heure_presence
+    SELECT p.*, e.nom, e.postnom, e.prenom, e.matricule, c.nom AS cours
     FROM presences p
-    JOIN etudiants e ON p.etudiant_id = e.id
-    WHERE p.cours_id = ? AND p.date_presence = ?
+    JOIN etudiants e ON p.id_etudiant = e.id
+    JOIN cours c ON p.id_cours = c.id
+    WHERE c.id_professeur = ?
 ";
 
-if ($search_nom !== '') {
-    $sql .= " AND (e.nom LIKE ? OR e.prenom LIKE ?)";
+$params = [$id_prof];
+$types = 'i';
+
+if (!empty($cours_id)) {
+    $sql .= " AND c.id = ?";
+    $params[] = $cours_id;
+    $types .= 'i';
 }
 
-$sql .= " ORDER BY p.heure_presence ASC";
+if (!empty($filtre_date)) {
+    $sql .= " AND DATE(p.date_pointage) = ?";
+    $params[] = $filtre_date;
+    $types .= 's';
+}
+
+if (!empty($search)) {
+    $sql .= " AND (e.nom LIKE ? OR e.postnom LIKE ? OR e.prenom LIKE ? OR e.matricule LIKE ?)";
+    $search_param = "%$search%";
+    $params = array_merge($params, [$search_param, $search_param, $search_param, $search_param]);
+    $types .= 'ssss';
+}
+
+$sql .= " ORDER BY p.date_pointage DESC";
 
 $stmt = $conn->prepare($sql);
-
-if ($search_nom !== '') {
-    $like_nom = "%$search_nom%";
-    $stmt->bind_param("isss", $cours_id, $date, $like_nom, $like_nom);
-} else {
-    $stmt->bind_param("is", $cours_id, $date);
-}
-
+$stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
-
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Liste des présences - ePresence</title>
-<style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
-    h1 { color: #333; }
-    form { margin-bottom: 20px; }
-    input[type=date], input[type=text] {
-        padding: 8px;
-        font-size: 16px;
-        margin-right: 10px;
-    }
-    button {
-        padding: 8px 16px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-right: 10px;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    th, td {
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-        text-align: left;
-    }
-    th {
-        background-color: #007bff;
-        color: white;
-    }
-    tr:hover {
-        background-color: #f1f1f1;
-    }
-    a {
-        color: #007bff;
-        text-decoration: none;
-    }
-</style>
+    <meta charset="UTF-8">
+    <title>Liste des présences</title>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+        .box { background: white; padding: 20px; border-radius: 8px; max-width: 1000px; margin: auto; }
+        input, select {
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(33% - 10px);
+        }
+        button {
+            padding: 8px 16px;
+            margin-top: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+        th { background: #343a40; color: white; }
+    </style>
 </head>
 <body>
 
-<h1>Liste des présences pour le <?= htmlspecialchars($date) ?></h1>
+<div class="box">
+    <h2>Liste des présences</h2>
 
-<!-- Formulaire de filtrage et export -->
-<form method="get" action="">
-    <label for="date">Date :</label>
-    <input type="date" id="date" name="date" value="<?= htmlspecialchars($date) ?>" required />
-    <label for="search_nom">Nom étudiant :</label>
-    <input type="text" id="search_nom" name="search_nom" placeholder="Rechercher par nom" value="<?= htmlspecialchars($search_nom) ?>" />
-    <button type="submit">Filtrer</button>
+    <form method="GET">
+        <select name="cours_id">
+            <option value="">Tous les cours</option>
+            <?php while ($row = $cours->fetch_assoc()) { ?>
+                <option value="<?= $row['id'] ?>" <?= ($cours_id == $row['id']) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($row['nom_cours']) ?>
+                </option>
+            <?php } ?>
+        </select>
 
-    <!-- Bouton Export CSV -->
-    <button formaction="export_presences.php" formmethod="get" type="submit">
-        Exporter en CSV
-    </button>
-</form>
+        <input type="date" name="date" value="<?= htmlspecialchars($filtre_date) ?>" />
+        <input type="text" name="search" placeholder="Recherche par nom ou matricule" value="<?= htmlspecialchars($search) ?>" />
+        <button type="submit">Filtrer</button>
+    </form>
 
-<table>
-    <thead>
+    <table>
         <tr>
             <th>Nom complet</th>
+            <th>Matricule</th>
+            <th>Cours</th>
             <th>Date</th>
-            <th>Heure de présence</th>
+            <th>Heure</th>
         </tr>
-    </thead>
-    <tbody>
-        <?php if ($result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['prenom'] . ' ' . $row['nom']) ?></td>
-                    <td><?= htmlspecialchars($row['date_presence']) ?></td>
-                    <td><?= htmlspecialchars($row['heure_presence']) ?></td>
-                </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr><td colspan="3">Aucune présence trouvée avec ces critères.</td></tr>
-        <?php endif; ?>
-    </tbody>
-</table>
-
-<p><a href="prof_dashboard.php">← Retour au tableau de bord</a></p>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+            <tr>
+                <td><?= $row['nom'] . ' ' . $row['postnom'] . ' ' . $row['prenom'] ?></td>
+                <td><?= $row['matricule'] ?></td>
+                <td><?= $row['cours'] ?></td>
+                <td><?= date('d/m/Y', strtotime($row['date_pointage'])) ?></td>
+                <td><?= date('H:i', strtotime($row['date_pointage'])) ?></td>
+            </tr>
+        <?php } ?>
+    </table>
+</div>
 
 </body>
 </html>

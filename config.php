@@ -1,16 +1,12 @@
 <?php
-$host = 'localhost';
-$dbname = 'epresence';
-$username = 'root';
-$password = '';
+$host = "localhost";
+$user = "root";
+$password = "";
+$dbname = "epresence";
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    // Active les erreurs PDO
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // echo "✅ Connexion à la base de données réussie !";
-} catch (PDOException $e) {
-    echo "❌ Erreur de connexion : " . $e->getMessage();
-    exit();
+$conn = new mysqli($host, $user, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connexion échouée : " . $conn->connect_error);
 }
 ?>
