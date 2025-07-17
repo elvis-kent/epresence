@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['fichier'])) {
         $message = "✅ Livre ajouté avec succès.";
     } else {
         $message = "❌ Erreur lors de l’envoi du fichier.";
+    }
 }
 ?>
 
